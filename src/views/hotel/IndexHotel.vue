@@ -4,7 +4,7 @@
             <div class="col-md-12">
                 <div class="card border-0 rounded shadow">
                     <div class="card-body">
-                        <h4>DATA POST</h4>
+                        <h4>DATA HOTEL</h4>
                         <hr />
                         <router-link :to="{ name: 'hotel.create' }" class="btn btn-md btn-success">Tambah Hotel
                         </router-link>

@@ -21,21 +21,22 @@
                   {{ validation.kategori[0] }}
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group mt-3">
                 <label for="content" class="font-weight-bold">Nama Hotel</label>
-                <td>
-                  <!-- <select v-model="selected">
-                    <option v-for="iya in posts" :value="iya.id">
-                      {{ option.hotel.nama_hotel }}
-                    </option>
-                  </select> -->
-                </td>
+                <!-- <select v-model="selected">
+                  <option v-for="kate in kates" :value="kate.hotel.id">
+                    {{ kate.hotel.nama_hotel }}
+                  </option>
+                </select> -->
+                <select class="form-select" v-model="post.hotel_id">
+                  <option  v-for="hotel in hotels" :value="hotel.id" v-bind:key="hotel.id">{{ hotel.nama_hotel }}</option>
+                </select>
                 <!-- validation -->
                 <div v-if="validation.hotel_id" class="mt-2 alert alert-danger">
                   {{ validation.hotel_id[0] }}
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary">SIMPAN</button>
+              <button type="submit" class="btn btn-primary mt-3">SIMPAN</button>
             </form>
           </div>
         </div>
@@ -45,7 +46,7 @@
 </template>
 
 <script>
-import { reactive, ref } from "vue";
+import { reactive, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
 
@@ -69,14 +70,14 @@ export default {
       let hotel_id = post.hotel_id;
 
       axios
-        .post("http://localhost:8000/api/hotel", {
+        .post("http://localhost:8000/api/kategori", {
           kategori: kategori,
           hotel_id: hotel_id,
         })
         .then(() => {
           //redirect ke post index
           router.push({
-            name: "hotel.index",
+            name: "kategori.index",
           });
         })
         .catch((error) => {
@@ -84,10 +85,42 @@ export default {
           validation.value = error.response.data;
         });
     }
+    //reactive state
+    let kates = ref([]);
+    let hotels = ref([]);
+
+    //mounted
+    onMounted(() => {
+      //get API from Laravel Backend
+      axios
+        .get("http://localhost:8000/api/kategori")
+        .then((response) => {
+          //assign state posts with response data
+          kates.value = response.data.data;
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+        });
+    });
+
+    onMounted(() => {
+      //get API from Laravel Backend
+      axios
+        .get("http://localhost:8000/api/hotel")
+        .then((response) => {
+          //assign state posts with response data
+          hotels.value = response.data.data;
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+        });
+    });
 
     //return
     return {
       post,
+      kates,
+      hotels,
       validation,
       router,
       store,
