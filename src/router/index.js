@@ -1,9 +1,11 @@
 //import vue router
-import { createRouter, createWebHistory } from 'vue-router'
+import {
+    createRouter,
+    createWebHistory
+} from 'vue-router'
 
 //define a routes
-const routes = [
-    {
+const routes = [{
         path: '/hotel',
         name: 'hotel.index',
         component: () => import( /* webpackChunkName: "hotel.index" */ '@/views/hotel/IndexHotel.vue')
@@ -33,13 +35,26 @@ const routes = [
         path: '/kategori/edit/:id',
         name: 'kategori.edit',
         component: () => import( /* webpackChunkName: "kategori.edit" */ '@/views/kategori/EditKategori.vue')
-    }
+    },
+    {
+        path: '/kamar',
+        name: 'kamar.index',
+        component: () => import( /* webpackChunkName: "kamar.index" */ '@/views/kamar/IndexKamar.vue')
+    }, {
+        path: '/kamar/create',
+        name: 'kamar.create',
+        component: () => import( /* webpackChunkName: "kamar.create" */ '@/views/kamar/CreateKamar.vue')
+    }, {
+        path: '/kamar/edit/:id',
+        name: 'kamar.edit',
+        component: () => import( /* webpackChunkName: "kamar.edit" */ '@/views/kamar/EditKamar.vue')
+    },
 ]
 
 //create router
 const router = createRouter({
     history: createWebHistory(),
-    routes  // config routes
+    routes // config routes
 })
 
 export default router
